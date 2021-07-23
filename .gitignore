@@ -1,0 +1,26 @@
+# Unit test / coverage reports
+.coverage
+.pytest_cache
+.tox
+cover
+tests/coverage
+assets/coverage
+htmlcov
+coverage.xml
+nosetests.xml
+
+# Mr Developer
+.cache
+.project
+.pydevproject
+.idea
+.mypy_cache
+.scannerwork
+*.tar.gz
+.vscode
+.env
+conf/*
+venv
+
+build
+values/*.yaml
