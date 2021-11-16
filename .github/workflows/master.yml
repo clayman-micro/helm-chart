@@ -1,0 +1,26 @@
+name: Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      
+      - name: helm-check
+        uses: igabaydulin/helm-check-action@0.1.4
+        env:
+          CHART_LOCATION: ./micro
+          CHART_VALUES: ./micro/values.yaml
+
+      - name: Send notification to Telegram
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT }}
+          token: ${{ secrets.TELEGRAM_SECRET }}
+          args: ${{ github.repository }} linters for `master` - ${{ job.status }}

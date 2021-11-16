@@ -6,7 +6,7 @@ clean-build:
 	rm -fr build/
 
 lint:
-	@helm lint
+	@helm lint micro
 
 template: clean
-	@helm template . --output-dir=build --values=$(values)
+	@helm template micro --output-dir=build --values=$(values)
