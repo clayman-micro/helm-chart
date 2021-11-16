@@ -14,8 +14,8 @@ jobs:
       - name: helm-check
         uses: igabaydulin/helm-check-action@0.1.4
         env:
-          CHART_LOCATION: ./micro
-          CHART_VALUES: ./micro/values.yaml
+          CHART_LOCATION: ./charts/micro
+          CHART_VALUES: ./charts/micro/values.yaml
 
       - name: Configure Git
         run: |
