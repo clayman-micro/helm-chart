@@ -12,7 +12,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .Release.Name }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       annotations:
@@ -20,23 +20,26 @@ spec:
         {{- if .Values.metrics.prometheus }}
         prometheus.io/scrape: "true"
         prometheus.io/path: {{ .Values.metrics.prometheus.path | quote }}
-        prometheus.io/port: {{ .Values.metrics.prometheus.port }}
+        prometheus.io/port: {{ .Values.metrics.prometheus.port | quote }}
         {{- end }}
         {{- end }}
+        vault.hashicorp.com/role: micro
         {{- with .Values.vault.secrets }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
+        app: {{ .Release.Name }}
         app.kubernetes.io/name: {{ .Chart.Name | trunc 63 | trimSuffix "-" }}
         helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
         app.kubernetes.io/managed-by: {{ .Release.Service }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccount: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.migrations.enabled }}
       initContainers:
         - image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
@@ -64,6 +67,26 @@ spec:
           {{- with .Values.ports }}
           ports:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          {{- if .enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+            initialDelaySeconds: 5
+            periodSeconds: {{ .period }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          {{- if .enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .path }}
+              port: {{ .port }}
+            initialDelaySeconds: 5
+            periodSeconds: {{ .period }}
+          {{- end }}
           {{- end }}
           {{- with .Values.resources }}
           resources:
