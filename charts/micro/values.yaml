@@ -28,6 +28,11 @@ env: []
 ports:
   - containerPort: 5000
 
+ingress:
+  enabled: false
+
+  rules: []
+
 resources:
   limits:
     cpu: 250m
