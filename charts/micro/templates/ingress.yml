@@ -7,10 +7,7 @@ metadata:
   name: {{ .Release.Name }}-redirectscheme
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Chart.Name | trunc 63 | trimSuffix "-" }}
-    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "micro.labels" . | nindent 4 }}
 spec:
   redirectScheme:
     scheme: https
@@ -25,10 +22,7 @@ metadata:
   name: {{ .Release.Name }}-insecure
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Chart.Name | trunc 63 | trimSuffix "-" }}
-    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "micro.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -55,10 +49,7 @@ metadata:
   name: {{ .Release.Name }}-secure
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ .Chart.Name | trunc 63 | trimSuffix "-" }}
-    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "micro.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - websecure
