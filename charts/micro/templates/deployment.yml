@@ -48,6 +48,7 @@ spec:
       {{- end }}
       containers:
         - image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: {{ .Release.Name }}
           {{- with .Values.args }}
           args:
