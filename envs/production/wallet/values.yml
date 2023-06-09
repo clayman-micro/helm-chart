@@ -1,0 +1,33 @@
+---
+
+image:
+  repository: ghcr.io/clayman-micro/wallet
+  tag: "latest"
+
+replicas: 2
+
+serviceAccount:
+  name: micro
+
+imagePullSecrets:
+  - name: ghcr
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+  requests:
+    cpu: 125m
+    memory: 128Mi
+
+ingress:
+  enabled: true
+
+  rules:
+    - "Host(`wallet.clayman.pro`)"
+
+livenessProbe:
+  enabled: true
+
+readinessProbe:
+  enabled: true
