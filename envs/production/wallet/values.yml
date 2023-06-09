@@ -4,7 +4,7 @@ image:
   repository: ghcr.io/clayman-micro/wallet
   tag: "latest"
 
-replicas: 4x
+replicas: 4
 
 serviceAccount:
   name: micro
