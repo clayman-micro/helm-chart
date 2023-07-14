@@ -2,8 +2,6 @@ name: Deploy new release
 
 on:
   repository_dispatch:
-    types:
-      - deploy_release
 
 jobs:
   deploy:
