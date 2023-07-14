@@ -10,15 +10,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      # - name: Update image
-      #   uses: mikefarah/yq@master
-      #   with:
-      #     cmd: yq -i '.image.tag = "${{ github.event.client_payload.image_tag }}"' apps/${{ github.event.client_payload.app }}/{{ github.event.client_payload.env }}.yml
+      - name: Update image
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i '.image.tag = "${{ github.event.client_payload.image_tag }}"' apps/${{ github.event.client_payload.app }}/{{ github.event.client_payload.env }}.yml
 
-      # - name: Apply changes
-      #   uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: Update ${{ github.event.client_payload.app }} version in ${{ github.event.client_payload.env }}
+      - name: Apply changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update ${{ github.event.client_payload.app }} version in ${{ github.event.client_payload.env }}
 
       - name: Send notification to Telegram
         if: always()
