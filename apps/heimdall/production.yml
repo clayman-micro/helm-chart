@@ -1,0 +1,25 @@
+---
+
+image:
+  repository: ghcr.io/clayman-micro/heimdall
+  tag: "latest"
+replicas: 4
+serviceAccount:
+  name: micro
+imagePullSecrets:
+  - name: ghcr
+resources:
+  limits:
+    cpu: 250m
+    memory: 256Mi
+  requests:
+    cpu: 125m
+    memory: 128Mi
+ingress:
+  enabled: true
+  rules:
+    - "Host(`clayman.pro`) && PathPrefix(`/api`)"
+livenessProbe:
+  enabled: true
+readinessProbe:
+  enabled: true
