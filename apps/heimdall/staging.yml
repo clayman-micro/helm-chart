@@ -2,7 +2,7 @@
 
 image:
   repository: ghcr.io/clayman-micro/heimdall
-  tag: "master"
+  tag: "1636aa6"
 replicas: 2
 serviceAccount:
   name: micro
