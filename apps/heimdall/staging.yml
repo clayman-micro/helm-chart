@@ -18,7 +18,7 @@ resources:
 ingress:
   enabled: true
   rules:
-    - "Host(`staging.clayman.pro`) && PathPrefix(`/api`)"
+    - "Host(`api.staging.clayman.pro`)"
 livenessProbe:
   enabled: true
 readinessProbe:
