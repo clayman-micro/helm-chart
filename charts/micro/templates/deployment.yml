@@ -35,8 +35,12 @@ spec:
       {{- end }}
       {{- if .Values.migrations.enabled }}
       initContainers:
-        - image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
-          name: {{ .Release.Name }}-migrations
+        - name: {{ .Release.Name }}-migrations
+          {{- if .Values.image.tag }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{ else }}
+          image: "{{ .Values.image.repository }}"
+          {{- end }}
           {{- with .Values.migrations.args }}
           args:
           {{- toYaml . | nindent 12 }}
@@ -47,9 +51,13 @@ spec:
           {{- end }}
       {{- end }}
       containers:
-        - image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+        - name: {{ .Release.Name }}
+          {{- if .Values.image.tag }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{ else }}
+          image: "{{ .Values.image.repository }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          name: {{ .Release.Name }}
           {{- with .Values.args }}
           args:
           {{- toYaml . | nindent 12 }}
